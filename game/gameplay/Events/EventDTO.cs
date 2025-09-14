@@ -12,6 +12,8 @@ namespace Nogue.Gameplay.Events
         public double pedagogy = 0.0;
         public double repetition_penalty = 0.0;
         public bool contract_critical = false;
+        public string? contract_id = null;
+        public string? product = null;
         public string[] solvable_tags = Array.Empty<string>();
         public int tier_min = 1;
         public int tier_max = 6;

@@ -30,6 +30,17 @@ namespace Nogue.Gameplay.Events
                             tier_min = el.TryGetProperty("tier_min", out var tm) ? tm.GetInt32() : 1,
                             tier_max = el.TryGetProperty("tier_max", out var tmax) ? tmax.GetInt32() : 6,
                         };
+                        if (el.TryGetProperty("contract_id", out var cid))
+                            dto.contract_id = cid.GetString();
+                        if (el.TryGetProperty("product", out var prod))
+                            dto.product = prod.GetString();
+                        if (el.TryGetProperty("solvable_tags", out var tags) && tags.ValueKind == JsonValueKind.Array)
+                        {
+                            var listTags = new System.Collections.Generic.List<string>();
+                            foreach (var te in tags.EnumerateArray())
+                                if (te.ValueKind == JsonValueKind.String) listTags.Add(te.GetString() ?? string.Empty);
+                            dto.solvable_tags = listTags.ToArray();
+                        }
                         if (el.TryGetProperty("loss_profile", out var lp))
                         {
                             dto.loss_profile = new LossProfileDTO

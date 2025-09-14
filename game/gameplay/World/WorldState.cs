@@ -1,5 +1,7 @@
 using System.Collections.Generic;
 using Nogue.Gameplay.Director;
+using Nogue.Gameplay.Contracts;
+using Nogue.Core;
 
 namespace Nogue.Gameplay.World
 {
@@ -9,11 +11,14 @@ namespace Nogue.Gameplay.World
         public int K { get; private set; }
         public int APRemaining { get; private set; }
         public double DirectorEpsilon { get; private set; }
+        public int Day => _clock.Day;
+        public ContractsState? Contracts { get; private set; }
 
         private readonly HashSet<string> _seenNovelty = new HashSet<string>();
         private readonly Dictionary<string, int> _reserved = new Dictionary<string, int>();
         private readonly DamageBudget _budget = new DamageBudget();
         private readonly WorldInventory _inventory;
+        private readonly GameClock _clock = new GameClock();
 
         public int PatchCount { get; private set; } = 1;
         public Difficulty Difficulty { get; private set; } = Difficulty.Standard;
@@ -72,6 +77,16 @@ namespace Nogue.Gameplay.World
         public int GetReservedSlots(string category)
         {
             return _reserved.TryGetValue(category, out var v) ? v : 0;
+        }
+
+        // 簡易な期待生産フック（後で実装差替）
+        public int ForecastExpectedOutput(string productId, int days) => 0;
+
+        public void InitContracts(IEnumerable<ContractDTO> dtos)
+        {
+            Contracts = new ContractsState(() => Day);
+            foreach (var d in dtos)
+                Contracts.Add(d, startDay: Day);
         }
     }
 }

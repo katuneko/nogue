@@ -1,5 +1,7 @@
 using System;
 
+using Nogue.Gameplay.Contracts;
+
 namespace Nogue.Gameplay.Director
 {
     public enum EventType { Micro, Meso, Macro }
@@ -16,6 +18,8 @@ namespace Nogue.Gameplay.Director
 
         // Flags and context
         bool IsContractCritical { get; }
+        // Optional: 0..1 importance for contract urgency/shortage
+        double ContractImportance { get; }
     }
 
     public interface IWorldState
@@ -32,6 +36,9 @@ namespace Nogue.Gameplay.Director
 
         // Reserved slots by category name (e.g., "contract_critical": 1)
         int GetReservedSlots(string category);
+
+        // Contracts and production forecast hooks (optional)
+        ContractsState? Contracts { get; }
+        int ForecastExpectedOutput(string productId, int days);
     }
 }
-

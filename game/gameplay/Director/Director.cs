@@ -57,7 +57,8 @@ namespace Nogue.Gameplay.Director
                 double novelty = 1.0 - Clamp01(c.RepetitionPenalty) - (world.HasSeenNovelty(c.NoveltyKey) ? 0.25 : 0.0);
                 novelty = Math.Max(0, novelty);
                 double diversity = 1.0; // actual diversity boost applied later against partial selection
-                double contract = c.IsContractCritical ? 1.2 : 1.0;
+                // Contract importance boosts: map 0..1 -> 1.0..1.2
+                double contract = 1.0 + (Clamp01(c.ContractImportance) * 0.2);
 
                 double solvable = world.IsSolvableNow(c) ? 1.0 : 0.4;
                 double baseScore = (_w.Danger * danger) + (_w.Pedagogy * pedagogy) + (_w.Novelty * novelty) + (_w.Contract * contract);

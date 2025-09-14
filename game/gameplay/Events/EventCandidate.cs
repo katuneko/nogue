@@ -11,6 +11,7 @@ namespace Nogue.Gameplay.Events
         public string NoveltyKey { get; init; } = string.Empty;
         public double RepetitionPenalty { get; init; }
         public bool IsContractCritical { get; init; }
+        public double ContractImportance { get; init; }
         public LossProfile LossProfile { get; init; } = LossProfile.Zero;
         public string[] SolvableTags { get; init; } = System.Array.Empty<string>();
     }
