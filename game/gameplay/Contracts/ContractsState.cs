@@ -20,6 +20,8 @@ namespace Nogue.Gameplay.Contracts
 
         public bool Has(string id) => _rt.ContainsKey(id);
 
+        private int CurrentWeekIndex() => (_day() - 1) / 7;
+
         public int DaysLeft(string id)
         {
             if (!_rt.TryGetValue(id, out var r)) return int.MaxValue;
@@ -33,7 +35,11 @@ namespace Nogue.Gameplay.Contracts
             // weekly：次の納品日までの日数
             int dow = ((today - 1) % 7) + 1; // 1..7
             int target = r.Dto.Schedule?.DayOfWeek ?? 1;
-            int delta = (target - dow + 7) % 7; if (delta == 0) delta = 7;
+            int delta = (target - dow + 7) % 7;
+            bool deliveredThisWeek = (r.LastDeliveredWeekIndex == CurrentWeekIndex());
+
+            if (delta == 0)
+                return deliveredThisWeek ? 7 : 0;
             return delta;
         }
 
@@ -55,7 +61,11 @@ namespace Nogue.Gameplay.Contracts
         {
             if (!_rt.TryGetValue(id, out var r)) return;
             r.Delivered += Math.Max(0, qty);
-            if (r.Dto.Type == "weekly") r.WeeksDelivered += 1;
+            if (r.Dto.Type == "weekly")
+            {
+                r.WeeksDelivered += 1;
+                r.LastDeliveredWeekIndex = CurrentWeekIndex();
+            }
         }
 
         public int ExpectedOutputWithin(string productId, int days, Func<string, int, int>? fallbackForecast = null)
@@ -67,7 +77,7 @@ namespace Nogue.Gameplay.Contracts
             public int StartDay;
             public int Delivered;
             public int WeeksDelivered;
+            public int LastDeliveredWeekIndex = -1;
         }
     }
 }
-
