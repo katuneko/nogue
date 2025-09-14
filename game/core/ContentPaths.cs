@@ -20,5 +20,9 @@ namespace Nogue.Core
         public static string DirectorScoringPath() => Path.Combine(ContentRoot(), "director", "Scoring.json");
         public static string EventsJsonPath() => Path.Combine(ContentRoot(), "events.json");
         public static string TiersJsonPath() => Path.Combine(ContentRoot(), "tiers.json");
+        public static string DevicesJsonPath() => Path.Combine(ContentRoot(), "devices.json");
+        public static string CropsJsonPath() => Path.Combine(ContentRoot(), "crops.json");
+        public static string ContractsJsonPath() => Path.Combine(ContentRoot(), "contracts.json");
+        public static string BudgetJsonPath() => Path.Combine(ContentRoot(), "director", "Budget.json");
     }
 }

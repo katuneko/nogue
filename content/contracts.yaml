@@ -1,0 +1,55 @@
+# contracts.yaml — minimal contract set
+
+- id: weekly_leafy
+  type: weekly
+  product: leafy
+  qty: 10
+  quality_min: B
+  pricing:
+    base: 10
+    curve: { lambda: 1.2, gamma: 1.5, cap: 2.2 }
+  schedule:
+    weeks: 3
+    day_of_week: 6
+  penalties:
+    late_per_day: 0.25
+    cancel_after_days: 3
+  credit:
+    delta_on_success: 1
+    delta_on_cancel: -1
+
+- id: bulk_wheat_grade_b
+  type: single
+  product: wheat
+  qty: 30
+  quality_min: B
+  pricing:
+    base: 6
+    curve: { lambda: 1.2, gamma: 1.5, cap: 2.2 }
+  deadline:
+    in_days: 10
+  penalties:
+    late_per_day: 0.25
+    cancel_after_days: 3
+  credit:
+    delta_on_success: 1
+    delta_on_cancel: -1
+
+- id: custom_trait_wheat
+  type: custom
+  product: wheat
+  qty: 12
+  quality_min: A
+  requires_traits: [ "short_stem", "dry_tolerance" ]
+  pricing:
+    base: 20
+    curve: { lambda: 1.4, gamma: 1.6, cap: 2.4 }
+  deadline:
+    in_days: 14
+  penalties:
+    late_per_day: 0.25
+    cancel_after_days: 2
+  credit:
+    delta_on_success: 2
+    delta_on_cancel: -2
+

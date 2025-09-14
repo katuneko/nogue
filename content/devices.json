@@ -1,0 +1,108 @@
+[
+  {
+    "id": "sprinkler",
+    "tier_min": 2,
+    "build_cost": {
+      "funds": 120,
+      "water": 0,
+      "fertilizer": 0,
+      "power": 0
+    },
+    "upkeep": {
+      "funds": 2,
+      "water": 3,
+      "fertilizer": 0,
+      "power": 0
+    },
+    "effects": [
+      {
+        "tag": "humidity",
+        "delta": 1,
+        "radius": 1,
+        "stage": "night"
+      }
+    ],
+    "ap_savings": {
+      "watering": 0.5
+    },
+    "side_effects": {
+      "pathogen_pressure": 0.1
+    },
+    "reliability": {
+      "fail_rate_daily": 0.01,
+      "maintenance_cooldown_days": 3
+    }
+  },
+  {
+    "id": "mulch_belt",
+    "tier_min": 3,
+    "build_cost": {
+      "funds": 80,
+      "water": 0,
+      "fertilizer": 0,
+      "power": 0
+    },
+    "upkeep": {
+      "funds": 1,
+      "water": 0,
+      "fertilizer": 0,
+      "power": 0
+    },
+    "effects": [
+      {
+        "tag": "evaporation",
+        "delta": -0.5,
+        "radius": 1,
+        "stage": "day"
+      },
+      {
+        "tag": "weed_pressure",
+        "delta": -0.5,
+        "radius": 1,
+        "stage": "day"
+      }
+    ],
+    "ap_savings": {
+      "weeding": 0.5
+    },
+    "side_effects": {
+      "pathogen_pressure": 0.05
+    },
+    "reliability": {
+      "fail_rate_daily": 0.002,
+      "maintenance_cooldown_days": 5
+    }
+  },
+  {
+    "id": "windbreak_tree",
+    "tier_min": 3,
+    "build_cost": {
+      "funds": 150,
+      "water": 0,
+      "fertilizer": 0,
+      "power": 0
+    },
+    "upkeep": {
+      "funds": 0,
+      "water": 0,
+      "fertilizer": 0,
+      "power": 0
+    },
+    "effects": [
+      {
+        "tag": "wind_shadow",
+        "delta": 1,
+        "radius": 2,
+        "stage": "day"
+      }
+    ],
+    "ap_savings": {},
+    "side_effects": {
+      "pollination": -0.1
+    },
+    "reliability": {
+      "fail_rate_daily": 0.0,
+      "maintenance_cooldown_days": 0
+    }
+  }
+]

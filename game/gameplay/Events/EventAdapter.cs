@@ -24,10 +24,18 @@ namespace Nogue.Gameplay.Events
                 NoveltyKey = d.novelty_key ?? string.Empty,
                 RepetitionPenalty = Clamp01(d.repetition_penalty),
                 IsContractCritical = d.contract_critical,
+                LossProfile = d.loss_profile != null
+                    ? new LossProfile(
+                        Clamp01(d.loss_profile.yield),
+                        Clamp01(d.loss_profile.quality),
+                        Clamp01(d.loss_profile.funds),
+                        Clamp01(d.loss_profile.equipment),
+                        Clamp01(d.loss_profile.pathogen))
+                    : LossProfile.Zero,
+                SolvableTags = d.solvable_tags ?? System.Array.Empty<string>(),
             };
         }
 
         private static double Clamp01(double v) => v < 0 ? 0 : (v > 1 ? 1 : v);
     }
 }
-

@@ -12,22 +12,49 @@ namespace Nogue.Gameplay.World
 
         private readonly HashSet<string> _seenNovelty = new HashSet<string>();
         private readonly Dictionary<string, int> _reserved = new Dictionary<string, int>();
+        private readonly DamageBudget _budget = new DamageBudget();
+        private readonly WorldInventory _inventory;
 
-        public WorldState(int tier, int k, int apRemaining, double epsilon, int reservedContract)
+        public int PatchCount { get; private set; } = 1;
+        public Difficulty Difficulty { get; private set; } = Difficulty.Standard;
+
+        public WorldState(int tier, int k, int apRemaining, double epsilon, int reservedContract, WorldInventory? inventory = null, int patchCount = 1, Difficulty difficulty = Difficulty.Standard)
         {
             Tier = tier;
             K = k;
             APRemaining = apRemaining;
             DirectorEpsilon = epsilon;
             _reserved["contract_critical"] = reservedContract;
+            _inventory = inventory ?? WorldInventory.Default();
+            PatchCount = patchCount;
+            Difficulty = difficulty;
         }
 
-        public bool ExceedsDamageBudget(IEventCandidate e) => false; // TODO: wire to budget
+        public bool ExceedsDamageBudget(IEventCandidate e)
+        {
+            var predicted = LossPredictor.ForCandidate(e);
+            return _budget.WouldExceed(predicted);
+        }
 
         public bool IsSolvableNow(IEventCandidate e)
         {
-            // TODO: heuristic/DFS. For now, assume true.
+            if (e is Events.EventCandidate ec)
+                return SolvableNow.Evaluate(ec, this, _inventory, null, 0.5f);
             return true;
+        }
+
+        public void InitializeBudgets(BudgetConfig cfg)
+        {
+            float coef = cfg.CoefFor(Difficulty);
+            _budget.Init(PatchCount, cfg.BetaYield, cfg.BetaQuality, cfg.BetaFunds, cfg.BetaEquipment, cfg.BetaPathogen, coef);
+        }
+
+        public void BeginDay() => _budget.ResetDay();
+
+        public void OnEventResolved(IEventCandidate e, float severity = 1.0f)
+        {
+            var actual = LossPredictor.ForCandidate(e, severity);
+            _budget.Consume(actual);
         }
 
         public bool HasSeenNovelty(string noveltyKey)
@@ -48,4 +75,3 @@ namespace Nogue.Gameplay.World
         }
     }
 }
-

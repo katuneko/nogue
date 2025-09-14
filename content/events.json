@@ -28,6 +28,10 @@
       "open_path",
       "apply_herb"
     ],
+    "loss_profile": {
+      "quality": 0.1,
+      "pathogen": 0.2
+    },
     "tier_min": 3
   },
   {

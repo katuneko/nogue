@@ -28,9 +28,13 @@ jobs:
       - name: Export tiers.json
         run: |
           python tools/ContentTools/export_tiers_json.py
+      - name: Export devices/crops/contracts JSON
+        run: |
+          python tools/ContentTools/export_content_json.py
       - name: Run validator
         run: |
           python tools/DataValidator/validate.py
       - name: Check generated JSON exists
         run: |
-          test -f content/events.json && test -f content/tiers.json
+          test -f content/events.json && test -f content/tiers.json && \
+          test -f content/devices.json && test -f content/crops.json && test -f content/contracts.json

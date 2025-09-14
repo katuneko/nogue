@@ -15,10 +15,19 @@ Quick content iteration
 - Validate locally: `python tools/DataValidator/validate.py`
 - CI runs merge+validation on pushes/PRs that touch `content/**`.
 
+Game content (devices/crops/contracts)
+
+- Source YAML: `content/devices.yaml`, `content/crops.yaml`, `content/contracts.yaml`.
+- Export JSON for runtime: `python tools/ContentTools/export_content_json.py` → writes `content/{devices,crops,contracts}.json`.
+
 Director scoring config
 
 - Defaults live in `content/director/Scoring.json`.
 - Tier-specific overrides come from `content/tiers/T*.yaml` under `director.{K,epsilon,reserved_slots}`.
+
+Damage budget config
+
+- Defaults live in `content/director/Budget.json` (`beta` per category and difficulty coefficients).
 
 Docs
 

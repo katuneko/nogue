@@ -30,6 +30,17 @@ namespace Nogue.Gameplay.Events
                             tier_min = el.TryGetProperty("tier_min", out var tm) ? tm.GetInt32() : 1,
                             tier_max = el.TryGetProperty("tier_max", out var tmax) ? tmax.GetInt32() : 6,
                         };
+                        if (el.TryGetProperty("loss_profile", out var lp))
+                        {
+                            dto.loss_profile = new LossProfileDTO
+                            {
+                                yield = lp.TryGetProperty("yield", out var y) ? y.GetDouble() : 0.0,
+                                quality = lp.TryGetProperty("quality", out var q) ? q.GetDouble() : 0.0,
+                                funds = lp.TryGetProperty("funds", out var f) ? f.GetDouble() : 0.0,
+                                equipment = lp.TryGetProperty("equipment", out var eq) ? eq.GetDouble() : 0.0,
+                                pathogen = lp.TryGetProperty("pathogen", out var p) ? p.GetDouble() : 0.0,
+                            };
+                        }
                         list.Add(dto);
                     }
                 }
@@ -39,4 +50,3 @@ namespace Nogue.Gameplay.Events
         }
     }
 }
-

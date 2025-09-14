@@ -1,0 +1,5 @@
+{
+  "beta": { "yield": 0.10, "quality": 0.10, "funds": 0.07, "equipment": 0.03, "pathogen": 2.0 },
+  "difficulty_coef": { "easy": 1.2, "standard": 1.0, "hard": 0.8 }
+}
+

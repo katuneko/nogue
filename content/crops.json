@@ -1,0 +1,62 @@
+[
+  {
+    "id": "wheat",
+    "growth_days": 12,
+    "traits": {
+      "root_depth": 1,
+      "dry_tolerance": 1,
+      "n_need": 1,
+      "ph_pref": "neutral",
+      "mycorrhiza": 1,
+      "pollination": "mixed"
+    },
+    "quality_weights": {
+      "humidity": 0.15,
+      "sunlight": 0.2,
+      "pathogen": 0.15,
+      "nitrogen": 0.15,
+      "ph_fit": 0.15,
+      "temperature": 0.2
+    }
+  },
+  {
+    "id": "bean",
+    "growth_days": 12,
+    "traits": {
+      "root_depth": 1,
+      "dry_tolerance": 0,
+      "n_need": 0,
+      "ph_pref": "neutral",
+      "mycorrhiza": 2,
+      "pollination": "self"
+    },
+    "quality_weights": {
+      "humidity": 0.2,
+      "sunlight": 0.15,
+      "pathogen": 0.1,
+      "nitrogen": 0.25,
+      "ph_fit": 0.15,
+      "temperature": 0.15
+    }
+  },
+  {
+    "id": "leafy",
+    "growth_days": 6,
+    "traits": {
+      "root_depth": 0,
+      "dry_tolerance": 0,
+      "n_need": 2,
+      "ph_pref": "neutral",
+      "mycorrhiza": 1,
+      "pollination": "self"
+    },
+    "quality_weights": {
+      "humidity": 0.25,
+      "sunlight": 0.2,
+      "pathogen": 0.2,
+      "nitrogen": 0.15,
+      "ph_fit": 0.1,
+      "temperature": 0.1
+    }
+  }
+]

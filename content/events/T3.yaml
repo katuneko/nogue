@@ -8,4 +8,6 @@
     novelty_key: "disease_mildew"
     repetition_penalty: 0.4
   solvable_tags: ["remove_windbreak", "open_path", "apply_herb"]
-
+  loss_profile:
+    quality: 0.10
+    pathogen: 0.20

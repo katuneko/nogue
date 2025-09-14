@@ -39,6 +39,9 @@ def main():
     events_file = content_dir / "events.yaml"
     ids_file = content_dir / "ids.yaml"
     director_scoring = content_dir / "director" / "Scoring.json"
+    devices_file = content_dir / "devices.yaml"
+    crops_file = content_dir / "crops.yaml"
+    contracts_file = content_dir / "contracts.yaml"
 
     errors = 0
 
@@ -94,6 +97,40 @@ def main():
                 missing = ev_ids - registry.get("events", set())
                 if missing:
                     raise ValueError(f"Unregistered event IDs: {sorted(missing)}")
+
+            # Devices
+            if devices_file.exists():
+                devs = yaml.safe_load(devices_file.read_text(encoding="utf-8")) or []
+                for d in devs:
+                    did = d.get("id")
+                    if did not in registry.get("devices", set()):
+                        raise ValueError(f"Unregistered device id: {did}")
+                    # ranges
+                    rel = (d.get("reliability") or {})
+                    fr = rel.get("fail_rate_daily", 0)
+                    if not (0 <= fr <= 1):
+                        raise ValueError(f"device {did} fail_rate_daily out of range: {fr}")
+            # Crops
+            if crops_file.exists():
+                crops = yaml.safe_load(crops_file.read_text(encoding="utf-8")) or []
+                for c in crops:
+                    cid = c.get("id")
+                    if cid not in registry.get("crops", set()):
+                        raise ValueError(f"Unregistered crop id: {cid}")
+                    qw = (c.get("quality_weights") or {})
+                    total = sum(float(qw.get(k, 0)) for k in qw.keys())
+                    if not (0.99 <= total <= 1.01):
+                        raise ValueError(f"crop {cid} quality_weights must sum to 1.0 (got {total})")
+            # Contracts
+            if contracts_file.exists():
+                cons = yaml.safe_load(contracts_file.read_text(encoding="utf-8")) or []
+                for ct in cons:
+                    ctid = ct.get("id")
+                    if ctid not in registry.get("contracts", set()):
+                        raise ValueError(f"Unregistered contract id: {ctid}")
+                    prod = ct.get("product")
+                    if prod not in registry.get("crops", set()):
+                        raise ValueError(f"contract {ctid} references unknown crop: {prod}")
 
             print(f"[validator] OK: {ids_file}")
         except Exception as e:

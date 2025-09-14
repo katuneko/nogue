@@ -31,3 +31,16 @@
   - keys: `weights.{danger,pedagogy,novelty,diversity,contract}`, `epsilon`, `K`, `reserved_slots.contract_critical`
 - Tier overrides: `content/tiers/T*.yaml -> director.{K,epsilon,reserved_slots}`
 - Merge rule: Tier overrides take precedence over Scoring defaults.
+
+## Damage Budget
+
+- Defaults in `content/director/Budget.json` (`beta` per category and `difficulty_coef`).
+- Runtime class: `game/gameplay/World/DamageBudget.cs` with day/season caps and consumption.
+- Predictor: `game/gameplay/World/LossPredictor.cs` uses event loss_profile or defaults by type.
+- World wires: `WorldState.InitializeBudgets/BeginDay/OnEventResolved`.
+
+## AP Estimation
+
+- Device definitions from `content/devices.{yaml,json}` (key `ap_savings`), loaded by `DeviceDefsLoader`.
+- Estimator: `game/gameplay/World/ApEstimator.cs` → `AP_base × ∏(1-α_device) × design_factor` (ceil, min 1).
+- `solvableNow` uses AP estimates with a depth-2 plan search and threshold on expected tag improvement.
