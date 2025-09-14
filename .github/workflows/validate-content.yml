@@ -1,0 +1,33 @@
+name: Validate Content & Schema
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'content/**'
+      - 'tools/DataValidator/**'
+      - '.github/workflows/validate-content.yml'
+  pull_request:
+    branches: [ main ]
+    paths:
+      - 'content/**'
+      - 'tools/DataValidator/**'
+      - '.github/workflows/validate-content.yml'
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install deps
+        run: |
+          python -m pip install --upgrade pip
+          pip install pyyaml jsonschema
+      - name: Run validator
+        run: |
+          python tools/DataValidator/validate.py
+

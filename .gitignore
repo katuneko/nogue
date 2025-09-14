@@ -1,0 +1,52 @@
+# OS / IDE
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+.vs/
+
+# Python tools
+__pycache__/
+.pytest_cache/
+
+# Unity (standard)
+[Ll]ibrary/
+[Tt]emp/
+[Oo]bj/
+[Bb]uild/
+[Bb]uilds/
+[Ll]ogs/
+[Uu]ser[Ss]ettings/
+MemoryCaptures/
+
+# Unity Asset meta and caches
+*.pidb
+*.booproj
+*.svd
+*.pdb
+*.mdb
+*.opendb
+*.VC.db
+
+# Crashlytics / Gradle / Android
+**/gradle/
+**/.gradle/
+**/build/
+**/Library/PackageCache/
+
+# Packages lock may be committed depending on policy; ignore by default
+Packages/packages-lock.json
+
+# Visual Studio / Rider
+*.suo
+*.user
+*.userprefs
+*.csproj.user
+
+# Keep Assets and ProjectSettings (Unity project)
+!Assets/
+!ProjectSettings/
+
+# Node (if any tooling added later)
+node_modules/
+

@@ -1,0 +1,9 @@
+# Update to your org/team or users
+*       @your-org/your-team
+
+# Example granular ownerships (uncomment/edit as needed)
+# /game/**                 @gameplay-team
+# /content/**              @design-team
+# /tools/**                @techdesign-team
+# /.github/**              @infra-team
+

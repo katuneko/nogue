@@ -1,0 +1,25 @@
+name: Unity Tests (conditional)
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  tests:
+    if: ${{ hashFiles('game/ProjectSettings/ProjectVersion.txt') != '' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run Unity EditMode and PlayMode tests
+        uses: game-ci/unity-test-runner@v4
+        env:
+          UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+        with:
+          projectPath: game
+          githubToken: ${{ secrets.GITHUB_TOKEN }}
+          testMode: all
+          artifactsPath: test-results
+
