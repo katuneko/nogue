@@ -1,14 +1,23 @@
-name: Unity Tests (conditional)
+name: Unity Tests (conditional, disabled)
 
+# Disabled auto triggers by request. Manual run only.
 on:
-  push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: unity-tests-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   tests:
-    if: ${{ hashFiles('game/ProjectSettings/ProjectVersion.txt') != '' }}
+    # Also skip for forked PRs and when license is missing
+    if: >-
+      ${{ hashFiles('game/ProjectSettings/ProjectVersion.txt') != '' &&
+          (github.event_name != 'pull_request' || github.event.pull_request.head.repo.fork == false) &&
+          secrets.UNITY_LICENSE != '' }}
     runs-on: ubuntu-latest
     timeout-minutes: 60
     steps:
@@ -22,4 +31,9 @@ jobs:
           githubToken: ${{ secrets.GITHUB_TOKEN }}
           testMode: all
           artifactsPath: test-results
-
+      - name: Upload combined results
+        if: always() && ${{ hashFiles('test-results/**') != '' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results
+          path: test-results

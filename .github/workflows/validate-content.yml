@@ -1,14 +1,8 @@
-name: Validate Content
+name: Validate Content (disabled)
 
+# Disabled auto triggers by request. Manual run only.
 on:
-  push:
-    paths:
-      - 'content/**'
-      - 'tools/DataValidator/**'
-  pull_request:
-    paths:
-      - 'content/**'
-      - 'tools/DataValidator/**'
+  workflow_dispatch:
 
 jobs:
   validate:

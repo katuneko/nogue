@@ -1,20 +1,42 @@
-name: Unity EditMode Tests
-on: [push, pull_request]
+name: Unity EditMode Tests (disabled)
+
+# Disabled auto triggers by request. Manual run only.
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: unity-editmode-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   test:
+    # Run only when a Unity project exists, not from forked PRs, and license is present
+    if: >-
+      ${{ hashFiles('game/ProjectSettings/ProjectVersion.txt') != '' &&
+          (github.event_name != 'pull_request' || github.event.pull_request.head.repo.fork == false) &&
+          secrets.UNITY_LICENSE != '' }}
     runs-on: ubuntu-latest
+    timeout-minutes: 60
     steps:
       - uses: actions/checkout@v4
       - name: Run EditMode tests with Coverage
         uses: game-ci/unity-test-runner@v4
+        env:
+          UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
         with:
           projectPath: game
           testMode: editmode
+          githubToken: ${{ secrets.GITHUB_TOKEN }}
+          artifactsPath: test-results/editmode
           coverageOptions: generateHtmlReport;generateBadge
-        env:
-          UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
-      - name: Upload coverage artifact
+      - name: Upload coverage artifact (if exists)
+        if: always() && ${{ hashFiles('game/CodeCoverage/**') != '' }}
         uses: actions/upload-artifact@v4
         with:
           name: coverage-editmode
-          path: game/CodeCoverage
+          path: |
+            game/CodeCoverage
+            test-results/editmode
