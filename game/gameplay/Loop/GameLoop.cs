@@ -17,6 +17,8 @@ namespace Nogue.Gameplay.Loop
         [SerializeField] private int initialTier = 1;
         [SerializeField] private int dailyAP = 4; // decided value for Standard/T1
 
+        [SerializeField] private Nogue.Presentation.UI.TodayTray? tray;
+
         private WorldState? _world;
         private Director? _director;
         private Xoshiro128PlusPlus? _rng;
@@ -89,6 +91,29 @@ namespace Nogue.Gameplay.Loop
             _world.MarkShown(shown);
             LogShown(shown);
 
+            // Optionally display in Editor IMGUI tray
+            if (tray != null)
+            {
+                var list = new List<IEventCandidate>(shown);
+                var reasons = new List<string>(shown.Count);
+                for (int i = 0; i < shown.Count; i++)
+                {
+                    var e = shown[i];
+                    bool damped = _world.ExceedsDamageBudget(e);
+                    bool solv = _world.IsSolvableNow(e);
+                    reasons.Add($"danger={e.BaseDanger:F2}, pedagogy={e.Pedagogy:F2}, contractImp={e.ContractImportance:F2}, solvable={solv}, budget={(damped ? "damped" : "ok")}");
+                }
+                tray.SetItems(list, reasons);
+                tray.OnPickIndex = idx =>
+                {
+                    if (idx < 0 || idx >= shown.Count) return;
+                    var picked = shown[idx];
+                    var outcome = ResolveOneAutomatically(picked);
+                    float sev = EventResolution.InferSeverityFromOutcome(picked, outcome);
+                    _world.OnEventResolved(picked, sev);
+                };
+            }
+
             // C) Player phase (temporary: auto-resolve top-1 if enabled)
             if (autoResolveTop && shown.Count > 0)
             {
@@ -128,4 +153,3 @@ namespace Nogue.Gameplay.Loop
         }
     }
 }
-
