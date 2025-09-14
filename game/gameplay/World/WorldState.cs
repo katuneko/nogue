@@ -113,5 +113,11 @@ namespace Nogue.Gameplay.World
                 if (_plantings[i].DaysToHarvest > 0) _plantings[i].DaysToHarvest--;
             }
         }
+
+        // Advance internal clock by one day (does not reset daily budget).
+        public void AdvanceDay()
+        {
+            _clock.AdvanceDay();
+        }
     }
 }
