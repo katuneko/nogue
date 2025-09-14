@@ -1,0 +1,136 @@
+{
+  "T1": {
+    "unlock": {
+      "systems": [
+        "basics_system"
+      ],
+      "devices": []
+    },
+    "director": {
+      "K": 3,
+      "epsilon": 0.05
+    },
+    "automation": {
+      "multiplier": 1.0
+    },
+    "events_weight_adjust": {}
+  },
+  "T2": {
+    "unlock": {
+      "systems": [
+        "water_system"
+      ],
+      "devices": [
+        "sprinkler"
+      ]
+    },
+    "director": {
+      "K": 3,
+      "epsilon": 0.06
+    },
+    "automation": {
+      "multiplier": 0.5
+    },
+    "events_weight_adjust": {
+      "disease_mildew": 0.1
+    }
+  },
+  "T3": {
+    "unlock": {
+      "systems": [
+        "wind_system"
+      ],
+      "devices": [
+        "windbreak_tree",
+        "mulch_belt"
+      ]
+    },
+    "director": {
+      "K": 3,
+      "epsilon": 0.08
+    },
+    "automation": {
+      "multiplier": 0.5
+    },
+    "events_weight_adjust": {
+      "disease_downwind": 0.2,
+      "pollination_bonus": 0.15
+    }
+  },
+  "T4": {
+    "unlock": {
+      "systems": [
+        "market_system",
+        "contract_system",
+        "logistics_system"
+      ],
+      "devices": [
+        "packing_line",
+        "cold_chain"
+      ]
+    },
+    "director": {
+      "K": 3,
+      "epsilon": 0.07,
+      "reserved_slots": {
+        "contract_critical": 1
+      }
+    },
+    "automation": {
+      "multiplier": 0.25
+    },
+    "events_weight_adjust": {
+      "contract_due": 0.25,
+      "logistics_delay": 0.1
+    }
+  },
+  "T5": {
+    "unlock": {
+      "systems": [
+        "bio_corridor",
+        "pollination_system"
+      ],
+      "devices": [
+        "pollination_box"
+      ]
+    },
+    "director": {
+      "K": 3,
+      "epsilon": 0.08,
+      "reserved_slots": {
+        "contract_critical": 1
+      }
+    },
+    "automation": {
+      "multiplier": 0.125
+    },
+    "events_weight_adjust": {
+      "corridor_break": 0.2,
+      "predation_wave": 0.15
+    }
+  },
+  "T6": {
+    "unlock": {
+      "systems": [
+        "genetics_system"
+      ],
+      "devices": [
+        "breeding_lab"
+      ]
+    },
+    "director": {
+      "K": 3,
+      "epsilon": 0.1,
+      "reserved_slots": {
+        "contract_critical": 1
+      }
+    },
+    "automation": {
+      "multiplier": 0.125
+    },
+    "events_weight_adjust": {
+      "research_focus": 0.2,
+      "special_order": 0.25
+    }
+  }
+}

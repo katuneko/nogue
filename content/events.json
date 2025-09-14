@@ -1,0 +1,63 @@
+[
+  {
+    "id": "rain_storm",
+    "type": "macro",
+    "trigger": "season in [spring, autumn] && chance(0.1)",
+    "effect": "runoff_downstream+; upstream_fertility-",
+    "score": {
+      "base_danger": 0.7,
+      "pedagogy": 0.4,
+      "novelty_key": "rain_storm",
+      "repetition_penalty": 0.3
+    },
+    "tier_min": 1
+  },
+  {
+    "id": "disease_mildew_hint",
+    "type": "micro",
+    "trigger": "humidity>=4 AND mulch>=1",
+    "effect": "pathogen+1 on patch; show_hint('風通し')",
+    "score": {
+      "base_danger": 0.6,
+      "pedagogy": 0.7,
+      "novelty_key": "disease_mildew",
+      "repetition_penalty": 0.4
+    },
+    "solvable_tags": [
+      "remove_windbreak",
+      "open_path",
+      "apply_herb"
+    ],
+    "tier_min": 3
+  },
+  {
+    "id": "contract_weekly_leafy",
+    "type": "meso",
+    "trigger": "tier>=4",
+    "effect": "set_weekly_order(qty=10, quality>=B)",
+    "score": {
+      "base_danger": 0.5,
+      "pedagogy": 0.5,
+      "novelty_key": "weekly_contract",
+      "contract_boost": 1.2
+    },
+    "tier_min": 4
+  },
+  {
+    "id": "pollination_bonus",
+    "type": "micro",
+    "trigger": "bloom && (wind_active || bees_active)",
+    "effect": "yield+0.1; quality+0.05",
+    "score": {
+      "base_danger": 0.2,
+      "pedagogy": 0.6,
+      "novelty_key": "pollination_bonus",
+      "repetition_penalty": 0.2
+    },
+    "solvable_tags": [
+      "place_pollination_box",
+      "open_wind_path"
+    ],
+    "tier_min": 5
+  }
+]

@@ -16,6 +16,7 @@
 - Runtime env var: `CONTENT_ROOT` (default: `content/`).
 - Build step copies `CONTENT_ROOT` to `game/content/` (or symlinks it) for Unity `StreamingAssets` consumption.
 - Events are authored in `content/events/*.yaml` and merged into `content/events.yaml` by `tools/ContentTools/merge_events.py` (generated file; do not edit).
+  - The tool also emits `content/events.json` for runtime loading.
 
 ## Director Implementation (MVP)
 
@@ -23,3 +24,10 @@
 - Inputs are provided via `IWorldState` and `IEventCandidate` interfaces.
 - Reserved slot `contract_critical: 1` is honored for Tier >= 4.
 - The implementation is deterministic once wired to a world RNG; for now it uses a fixed fallback RNG for ε-injection.
+
+## Scoring Config (Externalized)
+
+- Authoritative defaults: `content/director/Scoring.json`
+  - keys: `weights.{danger,pedagogy,novelty,diversity,contract}`, `epsilon`, `K`, `reserved_slots.contract_critical`
+- Tier overrides: `content/tiers/T*.yaml -> director.{K,epsilon,reserved_slots}`
+- Merge rule: Tier overrides take precedence over Scoring defaults.

@@ -15,6 +15,11 @@ Quick content iteration
 - Validate locally: `python tools/DataValidator/validate.py`
 - CI runs merge+validation on pushes/PRs that touch `content/**`.
 
+Director scoring config
+
+- Defaults live in `content/director/Scoring.json`.
+- Tier-specific overrides come from `content/tiers/T*.yaml` under `director.{K,epsilon,reserved_slots}`.
+
 Docs
 
 - Design extract: `docs/GDD/Fieldcrawler_T1-T6_spec.md`

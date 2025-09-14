@@ -38,6 +38,7 @@ def main():
     tiers_dir = content_dir / "tiers"
     events_file = content_dir / "events.yaml"
     ids_file = content_dir / "ids.yaml"
+    director_scoring = content_dir / "director" / "Scoring.json"
 
     errors = 0
 
@@ -102,6 +103,17 @@ def main():
     if not tier_files and not events_file.exists():
         print("[validator] No content to validate. Skipping.")
         return 0
+
+    # Scoring config presence check
+    if director_scoring.exists():
+        try:
+            json.loads(director_scoring.read_text(encoding="utf-8"))
+            print(f"[validator] OK: {director_scoring}")
+        except Exception as e:
+            errors += 1
+            print(f"[validator] ERROR in {director_scoring}: {e}")
+    else:
+        print("[validator] WARN: content/director/Scoring.json not found")
 
     return 1 if errors else 0
 

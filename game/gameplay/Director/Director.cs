@@ -19,7 +19,30 @@ namespace Nogue.Gameplay.Director
         }
 
         private readonly Weights _w;
-        public Director(Weights? w = null) { _w = w ?? new Weights(); }
+        private readonly double _epsilonDefault;
+        private readonly int _kDefault;
+        private readonly int _reservedContractDefault;
+
+        public Director(Weights? w = null, double epsilonDefault = 0.08, int kDefault = 3, int reservedContractDefault = 0)
+        {
+            _w = w ?? new Weights();
+            _epsilonDefault = epsilonDefault;
+            _kDefault = kDefault;
+            _reservedContractDefault = reservedContractDefault;
+        }
+
+        public static Director FromConfig(DirectorConfig cfg)
+        {
+            var w = new Weights
+            {
+                Danger = cfg.Weights.Danger,
+                Pedagogy = cfg.Weights.Pedagogy,
+                Novelty = cfg.Weights.Novelty,
+                Diversity = cfg.Weights.Diversity,
+                Contract = cfg.Weights.Contract
+            };
+            return new Director(w, cfg.Epsilon, cfg.K, cfg.ReservedSlots.ContractCritical);
+        }
 
         public List<IEventCandidate> Select(IReadOnlyList<IEventCandidate> candidates, IWorldState world)
         {
@@ -45,7 +68,7 @@ namespace Nogue.Gameplay.Director
 
             // 2) Reserved slots (e.g., contract critical) — simple preselection by category
             var selected = new List<IEventCandidate>();
-            int reserveContract = world.GetReservedSlots("contract_critical");
+            int reserveContract = Math.Max(world.GetReservedSlots("contract_critical"), _reservedContractDefault);
             if (reserveContract > 0)
             {
                 var pool = scored.Where(r => r.Evt.IsContractCritical)
@@ -56,7 +79,8 @@ namespace Nogue.Gameplay.Director
             }
 
             // 3) Diversity-aware greedy fill for remaining slots
-            int slots = Math.Max(0, world.K - selected.Count);
+            int k = world.K > 0 ? world.K : _kDefault;
+            int slots = Math.Max(0, k - selected.Count);
             var remaining = new List<ScoreRow>(scored.Where(r => !selected.Contains(r.Evt)));
 
             // helper: prefer different event types
@@ -77,21 +101,22 @@ namespace Nogue.Gameplay.Director
             }
 
             // 4) ε-greedy novelty injection: replace last slot with highest unseen occasionally
-            if (selected.Count > 0 && world.DirectorEpsilon > 0)
+            double eps = world.DirectorEpsilon > 0 ? world.DirectorEpsilon : _epsilonDefault;
+            if (selected.Count > 0 && eps > 0)
             {
                 var unseen = scored.Where(r => !world.HasSeenNovelty(r.Evt.NoveltyKey))
                                    .OrderByDescending(r => r.Score)
                                    .Select(r => r.Evt)
                                    .FirstOrDefault();
-                if (unseen != null && RandomShared(world).NextDouble() < world.DirectorEpsilon)
+                if (unseen != null && RandomShared(world).NextDouble() < eps)
                 {
                     selected[selected.Count - 1] = unseen;
                 }
             }
 
             // Clip to K
-            if (selected.Count > world.K)
-                selected = selected.Take(world.K).ToList();
+            if (selected.Count > k)
+                selected = selected.Take(k).ToList();
 
             return selected;
         }
@@ -103,4 +128,3 @@ namespace Nogue.Gameplay.Director
         private static System.Random RandomShared(IWorldState _) => _fallback;
     }
 }
-
