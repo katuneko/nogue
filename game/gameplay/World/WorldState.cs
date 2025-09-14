@@ -19,6 +19,7 @@ namespace Nogue.Gameplay.World
         private readonly DamageBudget _budget = new DamageBudget();
         private readonly WorldInventory _inventory;
         private readonly GameClock _clock = new GameClock();
+        private readonly List<Planting> _plantings = new List<Planting>();
 
         public int PatchCount { get; private set; } = 1;
         public Difficulty Difficulty { get; private set; } = Difficulty.Standard;
@@ -80,13 +81,37 @@ namespace Nogue.Gameplay.World
         }
 
         // 簡易な期待生産フック（後で実装差替）
-        public int ForecastExpectedOutput(string productId, int days) => 0;
+        public int ForecastExpectedOutput(string productId, int days)
+        {
+            if (days <= 0 || string.IsNullOrEmpty(productId)) return 0;
+            int sum = 0;
+            foreach (var p in _plantings)
+            {
+                if (p.ProductId == productId && p.DaysToHarvest <= days)
+                    sum += p.ExpectedUnits;
+            }
+            return sum;
+        }
 
         public void InitContracts(IEnumerable<ContractDTO> dtos)
         {
             Contracts = new ContractsState(() => Day);
             foreach (var d in dtos)
                 Contracts.Add(d, startDay: Day);
+        }
+
+        // Debug helpers for tests / smoke
+        public void Debug_AddPlanting(string productId, int daysToHarvest, int units = 1)
+        {
+            _plantings.Add(new Planting { ProductId = productId, DaysToHarvest = daysToHarvest, ExpectedUnits = units });
+        }
+
+        public void NightlyGrowthTick()
+        {
+            for (int i = 0; i < _plantings.Count; i++)
+            {
+                if (_plantings[i].DaysToHarvest > 0) _plantings[i].DaysToHarvest--;
+            }
         }
     }
 }
