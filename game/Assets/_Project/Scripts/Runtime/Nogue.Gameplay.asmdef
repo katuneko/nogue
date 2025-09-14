@@ -1,0 +1,1 @@
+{ "name": "Nogue.Gameplay", "references": ["Nogue.Core"], "autoReferenced": true }

@@ -1,0 +1,6 @@
+{
+  "name": "Nogue.Tests.EditMode",
+  "references": ["Nogue.Core", "Nogue.Gameplay"],
+  "optionalUnityReferences": ["TestAssemblies"],
+  "includePlatforms": ["Editor"]
+}

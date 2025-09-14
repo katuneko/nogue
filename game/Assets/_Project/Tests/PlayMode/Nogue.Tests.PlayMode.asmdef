@@ -1,0 +1,5 @@
+{
+  "name": "Nogue.Tests.PlayMode",
+  "references": ["Nogue.Core", "Nogue.Gameplay", "Nogue.UI"],
+  "optionalUnityReferences": ["TestAssemblies"]
+}
