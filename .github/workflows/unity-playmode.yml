@@ -1,0 +1,14 @@
+name: Unity PlayMode Tests
+on: [push, pull_request]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run PlayMode tests
+        uses: game-ci/unity-test-runner@v4
+        with:
+          projectPath: game
+          testMode: playmode
+        env:
+          UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}

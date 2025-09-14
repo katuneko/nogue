@@ -15,4 +15,5 @@ indent_size = 2
 csharp_new_line_before_members_in_object_initializers = true
 csharp_prefer_braces = when_multiline:suggestion
 dotnet_sort_system_directives_first = true
-
+csharp_style_var_when_type_is_apparent = true:suggestion
+csharp_style_var_elsewhere = false:suggestion
