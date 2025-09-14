@@ -1,0 +1,10 @@
+- id: "rain_storm"
+  type: "macro"
+  trigger: "season in [spring, autumn] && chance(0.1)"
+  effect: "runoff_downstream+; upstream_fertility-"
+  score:
+    base_danger: 0.7
+    pedagogy: 0.4
+    novelty_key: "rain_storm"
+    repetition_penalty: 0.3
+

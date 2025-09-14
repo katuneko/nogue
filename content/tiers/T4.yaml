@@ -1,0 +1,15 @@
+# Tier 4 — 市場・契約・物流
+unlock:
+  systems: ["market_system", "contract_system", "logistics_system"]
+  devices: ["packing_line", "cold_chain"]
+director:
+  K: 3
+  epsilon: 0.07
+  reserved_slots:
+    contract_critical: 1
+automation:
+  # 自動化と設計で更に逓減（目安）
+  multiplier: 0.25
+events_weight_adjust:
+  contract_due: 0.25
+  logistics_delay: 0.1

@@ -1,0 +1,8 @@
+{
+  "difficulty": "standard",
+  "weights": { "danger": 0.45, "pedagogy": 0.25, "novelty": 0.15, "diversity": 0.10, "contract": 0.05 },
+  "epsilon": 0.08,
+  "K": 3,
+  "reserved_slots": { "contract_critical": 0 }
+}
+

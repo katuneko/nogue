@@ -1,0 +1,11 @@
+- id: "disease_mildew_hint"
+  type: "micro"
+  trigger: "humidity>=4 AND mulch>=1"
+  effect: "pathogen+1 on patch; show_hint('風通し')"
+  score:
+    base_danger: 0.6
+    pedagogy: 0.7
+    novelty_key: "disease_mildew"
+    repetition_penalty: 0.4
+  solvable_tags: ["remove_windbreak", "open_path", "apply_herb"]
+

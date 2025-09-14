@@ -1,0 +1,14 @@
+# Tier 5 — 生態網（天敵回廊・受粉ネット）
+unlock:
+  systems: ["bio_corridor", "pollination_system"]
+  devices: ["pollination_box"]
+director:
+  K: 3
+  epsilon: 0.08
+  reserved_slots:
+    contract_critical: 1
+automation:
+  multiplier: 0.125
+events_weight_adjust:
+  corridor_break: 0.2
+  predation_wave: 0.15

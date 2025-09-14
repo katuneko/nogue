@@ -1,0 +1,14 @@
+# Tier 6 — 遺伝（交配・系統固定）
+unlock:
+  systems: ["genetics_system"]
+  devices: ["breeding_lab"]
+director:
+  K: 3
+  epsilon: 0.1
+  reserved_slots:
+    contract_critical: 1
+automation:
+  multiplier: 0.125
+events_weight_adjust:
+  research_focus: 0.2
+  special_order: 0.25

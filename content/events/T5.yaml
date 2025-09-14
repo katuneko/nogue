@@ -1,0 +1,11 @@
+- id: "pollination_bonus"
+  type: "micro"
+  trigger: "bloom && (wind_active || bees_active)"
+  effect: "yield+0.1; quality+0.05"
+  score:
+    base_danger: 0.2
+    pedagogy: 0.6
+    novelty_key: "pollination_bonus"
+    repetition_penalty: 0.2
+  solvable_tags: ["place_pollination_box", "open_wind_path"]
+

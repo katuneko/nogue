@@ -1,0 +1,39 @@
+# Official ID registry (authoritative)
+# - All IDs are snake_case ASCII, immutable once shipped.
+# - Categories are separate namespaces.
+
+systems:
+  - basics_system
+  - water_system
+  - wind_system
+  - market_system
+  - contract_system
+  - logistics_system
+  - bio_corridor
+  - pollination_system
+  - genetics_system
+
+devices:
+  - sprinkler
+  - mulch_belt
+  - windbreak_tree
+  - pollination_box
+  - packing_line
+  - cold_chain
+  - breeding_lab
+
+events:
+  - disease_mildew_hint
+  - contract_weekly_leafy
+  - pollination_bonus
+  - rain_storm
+
+crops:
+  - wheat
+  - bean
+  - leafy
+
+contracts:
+  - weekly_leafy
+  - bulk_wheat_grade_b
+  - custom_trait_wheat

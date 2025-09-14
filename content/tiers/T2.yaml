@@ -1,0 +1,13 @@
+# Tier 2 — 水系（灌漑の導入）
+unlock:
+  systems: ["water_system"]
+  devices: ["sprinkler"]
+director:
+  K: 3
+  epsilon: 0.06
+automation:
+  # 灌漑等で維持APを半減の目安
+  multiplier: 0.5
+events_weight_adjust:
+  # 湿潤傾向で病気系の比重をやや上げる等はデータ調整で管理
+  disease_mildew: 0.1

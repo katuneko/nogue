@@ -1,0 +1,12 @@
+# Tier 3 — 風・被覆（例：仕様書抜粋に準拠）
+unlock:
+  systems: ["wind_system"]
+  devices: ["windbreak_tree", "mulch_belt"]
+director:
+  K: 3
+  epsilon: 0.08
+automation:
+  multiplier: 0.5
+events_weight_adjust:
+  disease_downwind: 0.2
+  pollination_bonus: 0.15

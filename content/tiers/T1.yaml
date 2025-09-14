@@ -1,0 +1,12 @@
+# Tier 1 — 基礎フェーズ（初期値）
+unlock:
+  systems: ["basics_system"]
+  devices: []
+director:
+  # Kは難易度で2〜4固定。既定値として3を記述。
+  K: 3
+  epsilon: 0.05
+automation:
+  # T1は自動化ほぼなし＝1.0（維持APそのまま）
+  multiplier: 1.0
+events_weight_adjust: {}

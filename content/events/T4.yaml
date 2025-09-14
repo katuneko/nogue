@@ -1,0 +1,10 @@
+- id: "contract_weekly_leafy"
+  type: "meso"
+  trigger: "tier>=4"
+  effect: "set_weekly_order(qty=10, quality>=B)"
+  score:
+    base_danger: 0.5
+    pedagogy: 0.5
+    novelty_key: "weekly_contract"
+    contract_boost: 1.2
+
